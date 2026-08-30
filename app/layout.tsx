@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://yao-001.github.io"),
   title: "YAO / 001 — Embodied Intelligence Research",
   description:
-    "中科院自动化所研究实习生，关注具身智能与世界模型、机器人学习与强化学习，以及面向 Agentic 的下一代具身智能架构。",
+    "Research intern at CASIA working on embodied intelligence, world models, robot learning, reinforcement learning, and agentic embodied systems.",
   applicationName: "YAO / 001",
   authors: [{ name: "YAO / 001", url: "https://github.com/YAO-001" }],
   alternates: {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description:
       "Embodied intelligence, world models, robot learning and agentic systems.",
     type: "website",
-    locale: "zh_CN",
+    locale: "en_US",
     url: "/",
     images: [
       {
@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

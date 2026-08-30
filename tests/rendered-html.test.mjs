@@ -4,21 +4,26 @@ import test from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
 
-test("exports the finished portfolio as static HTML", async () => {
+test("exports the finished English-first bilingual portfolio as static HTML", async () => {
   const html = await readFile(new URL("../out/index.html", import.meta.url), "utf8");
 
-  assert.match(html, /<html lang="zh-CN">/i);
+  assert.match(html, /<html lang="en">/i);
   assert.match(
     html,
     /<title>YAO \/ 001 — Embodied Intelligence Research<\/title>/i,
   );
-  assert.match(html, /让智能体/);
+  assert.match(html, /Building agents/);
+  assert.match(html, /that learn in the world\./);
+  assert.match(html, /Institute of Automation, Chinese Academy of Sciences/);
+  assert.match(html, /data-language="en"/);
+  assert.match(html, /aria-label="View this page in English"/);
+  assert.match(html, /aria-label="用中文查看此页面"/);
+  assert.match(html, /aria-pressed="true"[^>]*>EN<\/button>/);
   assert.match(html, /id="work"/);
   assert.match(html, /id="questions"/);
   assert.match(html, /id="about"/);
   assert.match(html, /id="contact"/);
   assert.match(html, /FastMCP/);
-  assert.match(html, /中国科学院自动化研究所/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|SkeletonPreview/i);
 });
 

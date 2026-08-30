@@ -4,6 +4,8 @@ YAO / 001 的个人研究主页，聚焦具身智能与世界模型、机器人�
 
 页面中的开源工作来自 GitHub 账号 [`YAO-001`](https://github.com/YAO-001) 的公开 Pull Requests，当前精选贡献覆盖 FastMCP、verl、AReaL、TRL 与 AReno。
 
+主页默认显示英文，并提供 `EN / 中文` 页内切换；导航、研究介绍、PR 摘要和页脚会随语言同步更新。
+
 ## 本地运行
 
 ```bash

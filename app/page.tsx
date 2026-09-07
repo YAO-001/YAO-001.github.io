@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import "./motion.css";
 
 type Language = "en" | "zh";
 
@@ -302,6 +303,7 @@ const copy = {
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
   const [activeView, setActiveView] = useState("home");
+  const [motionPaused, setMotionPaused] = useState(false);
   const currentCopy = copy[language];
 
   useEffect(() => {
@@ -326,8 +328,14 @@ export default function Home() {
         {currentCopy.skip}
       </a>
 
-      <div className="page-shell" id="top" data-language={language} data-view={activeView}>
-        <div className="ambient-field" aria-hidden="true"><div className="ambient-ring" /><span className="giant-type">YAO</span></div>
+      <div className="page-shell" id="top" data-language={language} data-view={activeView} data-motion={motionPaused ? "paused" : "playing"}>
+        <div className="ambient-field" aria-hidden="true">
+          <div className="ambient-ring" />
+          <div className="water-ripples"><i /><i /><i /></div>
+          <div className="rising-particles">{Array.from({ length: 8 }, (_, index) => <i key={index} />)}</div>
+          <span className="giant-type">YAO</span>
+        </div>
+        <div className="scene-wipe" key={activeView} aria-hidden="true"><i /><i /></div>
         <header className="site-header">
           <a className="wordmark" href="#top" aria-label={currentCopy.topLabel}>
             YAO / 001 <sup>26</sup>
@@ -356,6 +364,11 @@ export default function Home() {
             </nav>
 
             <div className="language-switch" role="group" aria-label={currentCopy.languageLabel}>
+              <button type="button" className="motion-control" aria-pressed={motionPaused}
+                aria-label={language === "en" ? "Pause animations" : "暂停动画"}
+                onClick={() => setMotionPaused((paused) => !paused)}>
+                {motionPaused ? (language === "en" ? "Motion off" : "动态已关") : (language === "en" ? "Motion on" : "动态已开")}
+              </button>
               <button
                 type="button"
                 className={language === "en" ? "is-active" : undefined}

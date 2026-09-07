@@ -301,7 +301,20 @@ const copy = {
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
+  const [activeView, setActiveView] = useState("home");
   const currentCopy = copy[language];
+
+  useEffect(() => {
+    const syncView = () => {
+      const id = window.location.hash.slice(1);
+      if (id === "content") return;
+      setActiveView(["work", "questions", "about", "contact"].includes(id) ? id : "home");
+      window.scrollTo({ top: 0, behavior: "instant" });
+    };
+    syncView();
+    window.addEventListener("hashchange", syncView);
+    return () => window.removeEventListener("hashchange", syncView);
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = language === "en" ? "en" : "zh-CN";
@@ -313,7 +326,8 @@ export default function Home() {
         {currentCopy.skip}
       </a>
 
-      <div className="page-shell" id="top" data-language={language}>
+      <div className="page-shell" id="top" data-language={language} data-view={activeView}>
+        <div className="ambient-field" aria-hidden="true"><div className="ambient-ring" /><span className="giant-type">YAO</span></div>
         <header className="site-header">
           <a className="wordmark" href="#top" aria-label={currentCopy.topLabel}>
             YAO / 001 <sup>26</sup>
@@ -323,10 +337,22 @@ export default function Home() {
 
           <div className="header-actions">
             <nav className="primary-nav" aria-label={currentCopy.navLabel}>
-              <a href="#work">{currentCopy.nav.work}</a>
-              <a href="#questions">{currentCopy.nav.questions}</a>
-              <a href="#about">{currentCopy.nav.about}</a>
-              <a href="#contact">{currentCopy.nav.contact}</a>
+              {[
+                ["home", language === "en" ? "PROFILE" : "个人档案"],
+                ["work", language === "en" ? "OPEN SOURCE" : "开源贡献"],
+                ["questions", language === "en" ? "RESEARCH" : "研究方向"],
+                ["about", language === "en" ? "ABOUT" : "关于我"],
+                ["contact", language === "en" ? "CONTACT" : "联系"],
+              ].map(([id, label], index) => (
+                <a key={id} href={id === "home" ? "#top" : `#${id}`} aria-current={activeView === id ? "page" : undefined}
+                  onKeyDown={(event) => {
+                    if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+                    event.preventDefault();
+                    const links = event.currentTarget.parentElement?.querySelectorAll<HTMLAnchorElement>("a");
+                    const next = event.key === "Home" ? 0 : event.key === "End" ? 4 : (index + (event.key === "ArrowDown" ? 1 : 4)) % 5;
+                    links?.[next]?.focus();
+                  }}><small>0{index + 1}</small><span>{label}</span><b aria-hidden="true">↗</b></a>
+              ))}
             </nav>
 
             <div className="language-switch" role="group" aria-label={currentCopy.languageLabel}>
@@ -354,7 +380,7 @@ export default function Home() {
         </header>
 
         <main id="content">
-          <section className="hero" aria-labelledby="hero-title">
+          <section className="hero" aria-labelledby="hero-title" hidden={activeView !== "home"}>
             <aside className="hero-rail" aria-label={currentCopy.recentAria}>
               <div>
                 <p className="micro-label">{currentCopy.recentLabel}</p>
@@ -407,7 +433,7 @@ export default function Home() {
             </p>
           </section>
 
-          <section className="section-block" id="work" aria-labelledby="work-title">
+          <section className="section-block" id="work" aria-labelledby="work-title" hidden={activeView !== "work"}>
             <header className="section-header">
               <p className="section-index">{currentCopy.workIndex}</p>
               <div>
@@ -463,6 +489,7 @@ export default function Home() {
           <section
             className="section-block notes-section"
             id="questions"
+            hidden={activeView !== "questions"}
             aria-labelledby="questions-title"
           >
             <header className="section-header compact">
@@ -493,7 +520,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="about-section" id="about" aria-labelledby="about-title">
+          <section className="about-section" id="about" aria-labelledby="about-title" hidden={activeView !== "about"}>
             <div className="about-stamp" aria-hidden="true">
               <span>CASIA</span>
               <small>RESEARCH INTERN</small>
@@ -516,7 +543,7 @@ export default function Home() {
           </section>
         </main>
 
-        <footer className="site-footer" id="contact">
+        <footer className="site-footer" id="contact" hidden={activeView !== "contact"}>
           <div>
             <p className="micro-label">{currentCopy.contactLabel}</p>
             <a className="contact-link" href="mailto:yaoyaoguonan@outlook.com">
@@ -537,6 +564,7 @@ export default function Home() {
             LAST UPDATE · AUG 2026
           </p>
         </footer>
+        <div className="system-bar"><span>YAO / 001 — {language === "en" ? "RESEARCH PORTFOLIO" : "研究档案"}</span><span>{language === "en" ? "↑ ↓ Navigate · Enter Select" : "↑ ↓ 选择 · Enter 确认"}</span><a href="https://github.com/YAO-001" target="_blank" rel="noreferrer">GITHUB ↗</a></div>
       </div>
     </>
   );

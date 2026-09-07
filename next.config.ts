@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   basePath: githubBasePath,
   assetPrefix: githubBasePath || undefined,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: githubBasePath,
+  },
   images: {
     unoptimized: true,
   },

@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
+import { PreferencesProvider } from "./preferences";
 import "./globals.css";
+
+const anton = localFont({ src: "./fonts/anton.ttf", variable: "--font-anton", display: "swap", weight: "400" });
+const bebas = localFont({ src: "./fonts/bebas.ttf", variable: "--font-bebas", display: "swap", weight: "400" });
+const barlow = localFont({ src: [{ path: "./fonts/barlow.ttf", weight: "400" }, { path: "./fonts/barlow-bold.ttf", weight: "700" }], variable: "--font-barlow", display: "swap" });
+const montserrat = localFont({ src: "./fonts/montserrat.ttf", variable: "--font-montserrat", display: "swap", weight: "300" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yao-001.github.io"),
@@ -43,7 +50,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${anton.variable} ${bebas.variable} ${barlow.variable} ${montserrat.variable}`}><PreferencesProvider>{children}</PreferencesProvider></body>
     </html>
   );
 }

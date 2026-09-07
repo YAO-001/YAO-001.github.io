@@ -1,0 +1,296 @@
+export type Language = "en" | "zh";
+
+export const projects = [
+  {
+    number: "01",
+    subtitle: "FASTMCP · PR #4704",
+    discipline: "Agent Runtime · MCP",
+    status: "MERGED",
+    url: "https://github.com/PrefectHQ/fastmcp/pull/4704",
+    en: {
+      title: "Recoverable tool errors in CodeMode",
+      description:
+        "Fixed FastMCP CodeMode so tool exceptions flow through guest try/except, preserving intermediate results while keeping uncaught ToolError semantics explicit.",
+      stats: "3 files · +122 / −65 · merged Aug 2026",
+    },
+    zh: {
+      title: "让 CodeMode 的工具错误可以被恢复",
+      description:
+        "修复 FastMCP CodeMode 中工具异常绕过 guest try/except 的问题，让沙箱程序能够捕获失败的工具调用、保留中间结果并继续执行，同时让未捕获错误仍以清晰的 ToolError 暴露。",
+      stats: "3 个文件 · +122 / −65 · 2026.08 已合并",
+    },
+  },
+  {
+    number: "02",
+    subtitle: "VERL · PR #7204",
+    discipline: "Agentic RL · Observability",
+    status: "MERGED",
+    url: "https://github.com/verl-project/verl/pull/7204",
+    en: {
+      title: "Per-turn generation tracing for Agentic RL",
+      description:
+        "Added prompt_text and response_text to every LLM turn in asynchronous Agent Loops, allowing MLflow, Weave, and Trackio to reconstruct multi-turn trajectories without changing the public API.",
+      stats: "4 files · +111 / −25 · merged Aug 2026",
+    },
+    zh: {
+      title: "补齐 Agentic RL 的逐轮生成追踪",
+      description:
+        "为异步 Agent Loop 的每轮 LLM 生成补充 prompt_text 与 response_text，使 MLflow、Weave 和 Trackio 能够还原真实的多轮轨迹，同时保持原有 API 与返回对象不变。",
+      stats: "4 个文件 · +111 / −25 · 2026.08 已合并",
+    },
+  },
+  {
+    number: "03",
+    subtitle: "ARENO · PR #473",
+    discipline: "GPU Kernels · Verification",
+    status: "MERGED",
+    url: "https://github.com/inclusionAI/AReno/pull/473",
+    en: {
+      title: "GPU numerical references for native Attention",
+      description:
+        "Built GPU equivalence tests for varlen prefill and paged decode attention against independent PyTorch SDPA math, covering gradients, GQA, causal and sliding-window masks, and KV-cache updates.",
+      stats: "1 file · +228 / −0 · merged Aug 2026",
+    },
+    zh: {
+      title: "为原生 Attention 建立 GPU 数值基准",
+      description:
+        "以 PyTorch SDPA math 为独立参考，为 varlen prefill 与 paged decode attention 建立 GPU 数值等价测试，覆盖梯度、GQA、因果与滑动窗口掩码、KV cache 更新等关键路径。",
+      stats: "1 个文件 · +228 / −0 · 2026.08 已合并",
+    },
+  },
+  {
+    number: "04",
+    subtitle: "AREAL · PR #1578",
+    discipline: "Distributed RL · Infrastructure",
+    status: "MERGED",
+    url: "https://github.com/areal-project/AReaL/pull/1578",
+    en: {
+      title: "Reliable launch environments for TMS Offload",
+      description:
+        "Resolved the stdbuf and LD_PRELOAD collision in multi-GPU TMS offload, centralized local command construction, and validated the complete initialize → offload → destroy lifecycle.",
+      stats: "4 files · +324 / −23 · merged Aug 2026",
+    },
+    zh: {
+      title: "修复 TMS Offload 的启动环境冲突",
+      description:
+        "解决多 GPU TMS offload 场景中 stdbuf 注入与 LD_PRELOAD 冲突的问题，统一本地启动命令构造，并验证 initialize → offload → destroy 的完整生命周期。",
+      stats: "4 个文件 · +324 / −23 · 2026.08 已合并",
+    },
+  },
+  {
+    number: "05",
+    subtitle: "AREAL · PR #1571",
+    discipline: "FSDP · Systems Reliability",
+    status: "DRAFT",
+    url: "https://github.com/areal-project/AReaL/pull/1571",
+    en: {
+      title: "Race-safe teardown for FSDP / TMS training",
+      description:
+        "Designed re-entrant resume and cleanup, phased worker shutdown, monitored barriers, and TERM-to-KILL process-group escalation for teardown races after TMS offload, validated on two GPUs.",
+      stats: "10 files · +1,102 / −121 · draft",
+    },
+    zh: {
+      title: "让 FSDP / TMS 训练可以可靠退出",
+      description:
+        "针对 TMS offload 后的训练 teardown race，设计可重入的资源恢复、分阶段 worker 退出、受监控 barrier 与进程组 TERM-to-KILL 升级，并用双 GPU 场景验证无孤儿进程与残留显存。",
+      stats: "10 个文件 · +1,102 / −121 · 草稿",
+    },
+  },
+  {
+    number: "06",
+    subtitle: "HUGGING FACE TRL · PR #6615",
+    discipline: "RL Post-training · Memory",
+    status: "DRAFT",
+    url: "https://github.com/huggingface/trl/pull/6615",
+    en: {
+      title: "Lower-memory GRPO and RLOO training",
+      description:
+        "Added opt-in activation offloading to GRPOTrainer and RLOOTrainer, extending memory optimization to reinforcement-learning post-training paths without changing default behavior.",
+      stats: "7 files · +100 / −8 · draft",
+    },
+    zh: {
+      title: "降低 GRPO 与 RLOO 的训练显存压力",
+      description:
+        "为 GRPOTrainer 与 RLOOTrainer 增加可选的 activation offloading，在不改变默认行为的前提下，把现有内存优化能力延伸到强化学习后训练路径。",
+      stats: "7 个文件 · +100 / −8 · 草稿",
+    },
+  },
+  {
+    number: "07",
+    subtitle: "VERL · PR #7215",
+    discipline: "FSDP · Optimizer",
+    status: "OPEN",
+    url: "https://github.com/verl-project/verl/pull/7215",
+    en: {
+      title: "Selective weight decay under FSDP",
+      description:
+        "Fixed incorrect weight decay on bias and normalization parameters in FSDP, with standard parameter groups, legacy-checkpoint compatibility, and FSDP1/FSDP2 regression coverage.",
+      stats: "11 files · +304 / −17 · open",
+    },
+    zh: {
+      title: "在 FSDP 中正确应用选择性 Weight Decay",
+      description:
+        "修复 FSDP 优化器对 bias 与 normalization 参数错误施加 weight decay 的问题，引入标准参数分组策略、旧检查点兼容选项与覆盖 FSDP1/FSDP2 的回归验证。",
+      stats: "11 个文件 · +304 / −17 · 待合并",
+    },
+  },
+] as const;
+
+export const researchQuestions = [
+  {
+    index: "01",
+    en: {
+      title: "How can world models enter the embodied decision loop?",
+      text: "How can environmental prediction support long-horizon planning, causal reasoning, counterfactual imagination, and closed-loop control—not just generation?",
+    },
+    zh: {
+      title: "世界模型如何真正进入具身决策回路？",
+      text: "如何让环境预测不只服务于生成，而能支持长期规划、因果推理、反事实想象与闭环控制。",
+    },
+  },
+  {
+    index: "02",
+    en: {
+      title: "How can robots keep learning from data and interaction?",
+      text: "How can imitation learning, reinforcement learning, and online experience be combined so policies improve efficiently and robustly under real-world constraints?",
+    },
+    zh: {
+      title: "机器人怎样从数据与交互中持续学习？",
+      text: "如何把模仿学习、强化学习与在线经验结合起来，让策略在真实约束下更高效、更稳健地改进。",
+    },
+  },
+  {
+    index: "03",
+    en: {
+      title: "What is the next abstraction for agentic embodied systems?",
+      text: "How should perception, memory, planning, tools, and action be coordinated so agents transfer across tasks while retaining interpretable boundaries in open worlds?",
+    },
+    zh: {
+      title: "Agentic 具身架构的下一层抽象是什么？",
+      text: "如何协调感知、规划、记忆、工具和动作，使智能体能够跨任务迁移，并在开放世界里保持可解释的行为边界。",
+    },
+  },
+] as const;
+
+export const recentMerges = [
+  {
+    label: "FastMCP #4704",
+    url: "https://github.com/PrefectHQ/fastmcp/pull/4704",
+  },
+  {
+    label: "verl #7204",
+    url: "https://github.com/verl-project/verl/pull/7204",
+  },
+  {
+    label: "AReno #473",
+    url: "https://github.com/inclusionAI/AReno/pull/473",
+  },
+];
+
+export const toolkit = [
+  "Python",
+  "PyTorch",
+  "FSDP",
+  "Reinforcement Learning",
+  "Robot Learning",
+  "Distributed Systems",
+  "MCP",
+];
+
+export const copy = {
+  en: {
+    skip: "Skip to content",
+    topLabel: "Back to the top",
+    navLabel: "Primary navigation",
+    nav: {
+      work: "Open source↘",
+      questions: "Research↘",
+      about: "About↘",
+      contact: "Contact↘",
+    },
+    languageLabel: "Choose language",
+    chooseEnglish: "View this page in English",
+    chooseChinese: "用中文查看此页面",
+    recentLabel: "RECENT MERGES",
+    recentAria: "Recently merged open-source contributions",
+    availability: "RESEARCH INTERN @ CASIA",
+    eyebrow: "EMBODIED INTELLIGENCE · OPEN-SOURCE CONTRIBUTOR",
+    heroLine1: "Building agents",
+    heroLine2: "that learn in the world.",
+    introLeadPrefix: "I am a research intern at ",
+    institute: "the Institute of Automation, Chinese Academy of Sciences",
+    introLeadSuffix:
+      ", working on embodied intelligence and world models, robot learning and reinforcement learning, and next-generation agentic architectures for embodied systems.",
+    introSecondary:
+      "On GitHub, I turn engineering questions in RL post-training, agent runtimes, and distributed systems into reproducible, testable experiments through open-source collaboration.",
+    cta: "Explore upstream work",
+    workIndex: "01 / UPSTREAM WORK",
+    workHeading1: "Turning research questions",
+    workHeading2: "into verifiable systems.",
+    workIntro:
+      "Selected public pull requests by YAO-001. Status and statistics last checked on 2026.08.30. Open a row for the summary and original PR.",
+    viewPr: "VIEW PULL REQUEST ↗",
+    status: { MERGED: "MERGED", DRAFT: "DRAFT", OPEN: "OPEN" },
+    questionsIndex: "02 / CURRENT QUESTIONS",
+    questionsHeading: "The questions I am working through.",
+    questionMeta: "RESEARCH / 2026",
+    aboutIndex: "03 / ABOUT",
+    aboutHeading:
+      "I study embodied intelligence—and the systems that make the research reliable.",
+    aboutFirst:
+      "My research interests sit at the intersection of embodied intelligence, world models, robot learning, and reinforcement learning. I want to explore a more complete agentic embodied architecture—one that can perceive, remember, plan, use tools, act, and learn through continued interaction with the world.",
+    aboutSecond:
+      "Alongside research, I contribute to FastMCP, verl, AReaL, TRL, and AReno. Reliable training infrastructure, observable agent trajectories, and explicit tool boundaries are not secondary concerns to me; they are part of the research problem.",
+    toolkitLabel: "Technical focus",
+    contactLabel: "SAY HELLO",
+    linksLabel: "Social links",
+    backTop: "Back to top↑",
+  },
+  zh: {
+    skip: "跳到正文",
+    topLabel: "回到首页顶部",
+    navLabel: "主导航",
+    nav: {
+      work: "开源↘",
+      questions: "研究↘",
+      about: "关于↘",
+      contact: "联系↘",
+    },
+    languageLabel: "选择语言",
+    chooseEnglish: "View this page in English",
+    chooseChinese: "用中文查看此页面",
+    recentLabel: "RECENT MERGES / 近期合并",
+    recentAria: "近期合并的开源贡献",
+    availability: "中科院自动化所 · 研究实习生",
+    eyebrow: "具身智能研究 · OPEN-SOURCE CONTRIBUTOR",
+    heroLine1: "让智能体，",
+    heroLine2: "在世界里学习。",
+    introLeadPrefix: "我目前在",
+    institute: "中国科学院自动化研究所",
+    introLeadSuffix:
+      "实习，主要围绕具身智能与世界模型、机器人学习与强化学习，以及面向 Agentic 的下一代具身智能架构开展研究。",
+    introSecondary:
+      "在 GitHub 上，我通过开源协作，把 RL 后训练、Agent 运行时和分布式系统中的工程问题转化为可复现、可验证的实验。",
+    cta: "查看开源工作",
+    workIndex: "01 / UPSTREAM WORK",
+    workHeading1: "把研究问题，",
+    workHeading2: "变成可验证的系统。",
+    workIntro:
+      "精选自 GitHub 账号 YAO-001 的公开 Pull Requests。状态与统计更新于 2026.08.30，点击每一行查看工作摘要与原始 PR。",
+    viewPr: "查看原始 PULL REQUEST ↗",
+    status: { MERGED: "已合并", DRAFT: "草稿", OPEN: "待合并" },
+    questionsIndex: "02 / CURRENT QUESTIONS",
+    questionsHeading: "当前真正关心的问题。",
+    questionMeta: "研究 / 2026",
+    aboutIndex: "03 / ABOUT",
+    aboutHeading: "研究具身，也研究让研究可靠运行的系统。",
+    aboutFirst:
+      "我的研究兴趣位于具身智能、世界模型、机器人学习与强化学习的交叉处。我希望探索一种更完整的 Agentic 具身架构：它能够感知、记忆、规划、调用工具，并通过与世界持续交互来学习。",
+    aboutSecond:
+      "与此同时，我长期参与开源协作，贡献覆盖 FastMCP、verl、AReaL、TRL 与 AReno。对我而言，可靠的训练基础设施、可观测的智能体轨迹和明确的工具边界，本身就是智能系统研究的一部分。",
+    toolkitLabel: "技术关键词",
+    contactLabel: "SAY HELLO / 联系",
+    linksLabel: "社交链接",
+    backTop: "回到顶部↑",
+  },
+} as const;

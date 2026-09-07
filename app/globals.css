@@ -138,7 +138,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
   .about-scene .sc-char, .socials-scene .sc-char { left: 82px; max-width: 115px; }
   .about-scene .sc-main, .socials-scene .sc-main { padding-left: 62px; }
   .about-scene .sc-label, .socials-scene .sc-label { font-size: 22px; }
-  .about-scene .sc-reveal-panel { position: fixed; top: 28svh; left: -3vw; width: 105vw; height: 65svh; transform: rotate(-12deg); z-index: 30; animation: none; }
+  .about-scene .sc-reveal-panel.mounted { position: fixed; top: 28svh; left: 4vw; width: 84vw; height: 65svh; transform: rotate(-8deg); transform-origin: left top; z-index: 30; animation: none; clip-path: polygon(0 0,100% 0,calc(100% - 24px) 100%,0 100%); }
   .about-scene .sc-main-portrait-shell { position: fixed; right: -26vw; width: 60vw; height: 100svh; opacity: .5; z-index: 25; }
   .about-scene .sc-reveal-upper-bar { top: 18%; padding: 12px; height: 45%; }
   .about-scene .sc-reveal-upper-line { font: 16px/1.4 var(--font-barlow), "Microsoft YaHei", sans-serif; max-width: 90%; }

@@ -36,6 +36,26 @@ test("retains YAO's research, real contact details, and all seven upstream PR li
   for (const html of [resume, socials, work]) assert.doesNotMatch(html, /MdHu55a1n|Hussain|Indore|SkeletonPreview/);
 });
 
+test("exports labeled controls and structured contact and contribution dossiers", async () => {
+  for (const route of ["", "about/", "resume/", "socials/", "sideproj/"]) {
+    const html = await readPage(route);
+    assert.match(html, /class="language-switch"/);
+    assert.match(html, /class="motion-control"/);
+    assert.match(html, /aria-pressed="true" aria-label="View this page in English"/);
+  }
+  const contact = await readPage("socials/");
+  assert.match(contact, /aria-labelledby="contact-title"/);
+  assert.match(contact, /<h2 id="contact-title">GITHUB<\/h2>/);
+  assert.match(contact, /class="contact-field selected" aria-pressed="true"/);
+  assert.equal([...contact.matchAll(/class="contact-field(?: selected)?"/g)].length, 3);
+  assert.match(contact, /aria-label="Previous contact"/);
+  assert.match(contact, /aria-label="Next contact"/);
+  const work = await readPage("sideproj/");
+  assert.match(work, /aria-labelledby="project-detail-title"/);
+  assert.match(work, /<h2 id="project-detail-title">Recoverable tool errors in CodeMode<\/h2>/);
+  assert.match(work, /class="pr-status" data-status="MERGED"/);
+});
+
 test("exports lightweight media without shipping original videos", async () => {
   for (const file of ["Mainn.mp4", "Mainn_1.mp4", "main1.mp4", "main2.mp4", "main3.mp4", "menu-poster.webp", "about-poster.webp", "resume-poster.webp", "socials-poster.webp", "char1.webp", "char2.webp", "char3.webp", "mainm.webp", "mainm2.webp", "mainf.webp"]) {
     await access(new URL(`persona/optimized/${file}`, output));

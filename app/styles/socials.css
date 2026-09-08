@@ -1,5 +1,48 @@
 /* Visual geometry adapted from MdHussain121/Persona3_themed_website. See README credits. */
 
+.socials-scene .contact-dossier {
+  position: absolute;
+  top: max(8rem, 20svh);
+  left: 54%;
+  right: 3.3vw;
+  z-index: 20;
+  max-height: calc(100svh - max(8rem, 20svh) - 5.5rem);
+  overflow-y: auto;
+  background: var(--p3-bg-panel);
+  border: 1px solid var(--p3-border-soft);
+  border-top: 3px solid var(--p3-blue-light);
+  box-shadow: 10px 10px 0 #020a2f66;
+  scrollbar-width: thin;
+  scrollbar-color: #8df6ff80 #07143d;
+}
+.contact-dossier-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.35rem 1.5rem; border-bottom: 1px solid var(--p3-border-soft); }
+.contact-counter { margin-bottom: .45rem; color: var(--p3-blue-light); font-size: .8125rem; font-weight: 700; letter-spacing: .16em; }
+.contact-dossier-heading h2 { color: #fff; font: 400 clamp(1.75rem, 3vw, 2.6rem)/1 var(--font-anton), "Microsoft YaHei", sans-serif; letter-spacing: .01em; }
+.contact-switch { display: flex; gap: .5rem; }
+.contact-switch button { min-width: 38px; min-height: 34px; padding: .3rem .6rem; color: var(--p3-blue-light); border: 1px solid var(--p3-border-soft); font: 700 1rem/1 var(--font-barlow), sans-serif; transition: color .18s ease, background .18s ease, transform .18s var(--p3-ui-ease); }
+.contact-switch button:hover { color: #fff; background: #8df6ff26; transform: translateY(-2px); }
+.contact-fields { display: flex; flex-direction: column; gap: .65rem; padding: 1.2rem; }
+.contact-field { display: grid; grid-template-columns: 1.4rem minmax(0,1fr) .8rem; align-items: center; gap: .8rem; min-height: 86px; padding: .85rem 1rem; color: #eef9ff; background: #00184c24; border: 1px solid var(--p3-border-soft); border-left: 3px solid #8df6ff55; animation: contact-field-enter .28s var(--p3-ui-ease) both; transition: background .18s ease, color .18s ease, transform .18s var(--p3-ui-ease), border-color .18s ease; }
+.contact-field.selected { color: #061238; background: var(--p3-bg-highlight); border-color: var(--p3-blue-light); border-left-color: var(--p3-red-accent); transform: translateX(3px); }
+.contact-field:focus-visible { outline-offset: -4px; }
+.contact-field-index { align-self: start; padding-top: .15rem; font: 400 1.2rem/1 var(--font-bebas), sans-serif; opacity: .75; }
+.contact-field-body { min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+.contact-field-label { font-size: .875rem; font-weight: 700; line-height: 1.2; letter-spacing: .1em; }
+.contact-field-value { font: 700 clamp(1.125rem, 1.8vw, 1.6rem)/1.25 var(--font-barlow), "Microsoft YaHei", sans-serif; overflow-wrap: anywhere; }
+.contact-field-marker { opacity: 0; transition: opacity .18s ease; }
+.contact-field.selected .contact-field-marker { opacity: 1; }
+@keyframes contact-field-enter { from { opacity: 0; translate: 12px 0; } to { opacity: 1; translate: 0 0; } }
+@media (max-width: 1100px) {
+  .socials-scene .contact-dossier { left: 51%; right: 24px; }
+  .contact-dossier-heading { padding: 1.1rem; }
+  .contact-fields { padding: 1rem; }
+}
+@media (max-width: 720px) {
+  .socials-scene .contact-dossier { position: relative; top: auto; left: auto; right: auto; width: 90%; margin: 1rem auto 0; max-height: none; overflow: visible; }
+  .contact-field { padding: .8rem; grid-template-columns: 1.1rem minmax(0,1fr) .6rem; gap: .6rem; }
+  .contact-dossier-heading h2 { font-size: 2rem; }
+}
+
         .socials-scene .sc-root {
           position: absolute;
           inset: 0;

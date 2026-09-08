@@ -46,7 +46,6 @@
           transform: translate(-50%, -50%);
           width: 120%; height: 200%;
           background: radial-gradient(ellipse at center, rgba(255,100,180,0.35) 0%, transparent 70%);
-          filter: blur(18px);
           z-index: 0;
           pointer-events: none;
           opacity: 0;
@@ -113,6 +112,8 @@
         }
         .home-scene .p3-row.active .p3-label-dark { color: #6b0010; }
         .home-scene .p3-row:hover:not(.active) .p3-label-dark { color: #00d9ff; }
+        .home-scene .p3-row:not(.active) .p3-label-dark { text-shadow: 2px 3px 0 rgba(0,18,58,.55); }
+        .home-scene .p3-row:focus-visible { outline-color: var(--p3-blue-lighter); outline-offset: 12px; }
 
         .home-scene .p3-label-bright {
           color: #ff2a2a;

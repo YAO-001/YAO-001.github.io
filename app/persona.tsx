@@ -56,6 +56,10 @@ function Hints({ reveal = false, home = false }: { reveal?: boolean; home?: bool
   </div>;
 }
 
+function SceneHeading({ index, title }: { index: string; title: string }) {
+  return <header className="scene-heading"><p className="scene-eyebrow"><span>{index}</span> / YAO — 001</p><h1>{title}</h1></header>;
+}
+
 function MainMenu() {
   const { language } = usePreferences();
   const router = useRouter();
@@ -149,7 +153,7 @@ function About() {
     if (event.key === "Escape" || event.key === "Backspace") router.push("/");
   });
   return <>
-    <h1 className="sr-only">{labels[0]}</h1>
+    <SceneHeading index="01" title={labels[0]} />
     <nav className="sc-root" aria-label={zh ? "个人档案" : "Profile sections"}>
       {labels.map((label, index) => <PartyRow key={label} label={label} index={index} active={active === index}
         onSelect={() => setActive(index)} onOpen={() => { setActive(index); setRevealed(true); }} />)}
@@ -163,7 +167,9 @@ function About() {
             onClick={() => setActive(index)}>{label}</button>)}
         </div>
         <div role="tabpanel" id="profile-panel" aria-labelledby={`profile-tab-${active}`}>
-          <div className="sc-reveal-upper-bar">{upper[active].map((line) => <p className="sc-reveal-upper-line" key={line}>{line}</p>)}</div>
+          <div className="sc-reveal-upper-bar">{upper[active].map((line, index) => <p className="sc-reveal-upper-line" key={line}>
+            <span className="sc-reveal-line-index" aria-hidden="true">0{index + 1}</span><span>{line}</span>
+          </p>)}</div>
           <p className="sc-reveal-lower-bar">{lower[active]}</p>
         </div>
       </section>
@@ -263,14 +269,14 @@ function Socials() {
   const [info, setInfo] = useState(0);
   const [right, setRight] = useState(false);
   const items = [
-    { label: "GITHUB", href: "https://github.com/YAO-001", details: [["USER", "YAO-001"], ["ROLE", zh ? "研究实习生" : "Research Intern"], ["FOCUS", zh ? "具身智能" : "Embodied AI"]] },
-    { label: zh ? "电子邮箱" : "EMAIL", href: "mailto:yaoyaoguonan@outlook.com", details: [["MAIL", "yaoyaoguonan@outlook.com"], ["RESEARCH", "CASIA"], ["FOCUS", zh ? "世界模型" : "World Models"]] },
+    { label: "GITHUB", href: "https://github.com/YAO-001", details: [[zh ? "账号" : "USER", "YAO-001"], [zh ? "身份" : "ROLE", zh ? "研究实习生" : "Research Intern"], [zh ? "研究方向" : "FOCUS", zh ? "具身智能" : "Embodied AI"]] },
+    { label: zh ? "电子邮箱" : "EMAIL", href: "mailto:yaoyaoguonan@outlook.com", details: [[zh ? "邮箱" : "MAIL", "yaoyaoguonan@outlook.com"], [zh ? "研究机构" : "RESEARCH", "CASIA"], [zh ? "研究方向" : "FOCUS", zh ? "世界模型" : "World Models"]] },
   ];
   useKeyboard((event) => {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Enter", "Escape", "Backspace"].includes(event.key)) event.preventDefault();
     if (event.key === "ArrowUp" || event.key === "ArrowDown") {
       const step = event.key === "ArrowUp" ? -1 : 1;
-      focusItem(right ? ".social-details button" : ".sc-root a", Math.max(0, Math.min(right ? 2 : items.length - 1, (right ? info : active) + step)));
+      focusItem(right ? ".contact-fields button" : ".sc-root a", Math.max(0, Math.min(right ? 2 : items.length - 1, (right ? info : active) + step)));
     }
     if (event.key === "ArrowRight") { setRight(true); setInfo(0); }
     if (event.key === "ArrowLeft") { if (right) setRight(false); else router.push("/"); }
@@ -278,20 +284,24 @@ function Socials() {
     if (event.key === "Enter") { if (items[active].href.startsWith("mailto:")) window.location.href = items[active].href; else openExternal(items[active].href); }
   });
   return <>
-    <h1 className="sr-only">{zh ? "联系我" : "SOCIALS"}</h1>
+    <SceneHeading index="03" title={zh ? "联系我" : "SOCIALS"} />
     <nav className="sc-root" aria-label={copy[language].linksLabel}>{items.map((item, index) => <PartyRow key={item.label} index={index}
       label={item.label} href={item.href} active={active === index} onSelect={() => { setActive(index); setRight(false); }} />)}</nav>
-    <div className="sc-right-nav">
-      <span className="sc-nav-arrow left" aria-hidden="true">◄</span>
-      <button type="button" className="sc-nav-btn" aria-label={zh ? "上一联系方式" : "Previous contact"} onClick={() => setActive((active + 1) % 2)}>LB</button>
-      <span className="sc-nav-label">{items[active].label}</span>
-      <button type="button" className="sc-nav-btn" aria-label={zh ? "下一联系方式" : "Next contact"} onClick={() => setActive((active + 1) % 2)}>RB</button>
-      <span className="sc-nav-arrow right" aria-hidden="true">►</span>
-    </div>
-    <div className="social-details">{items[active].details.map(([label, value], index) => <button type="button" key={`${active}-${label}`} className={`sc-info-bar-wrap${info === index ? " selected" : ""}`}
-      style={{ top: `${155 + index * 68}px`, animationDelay: `${index * 50}ms` }} onMouseEnter={() => setInfo(index)} onFocus={() => setInfo(index)} onClick={() => { setInfo(index); setRight(true); }}>
-      <span className="sc-info-bar"><span className="sc-info-bar-text">{label}</span><span className={`sc-info-bar-count${label === "MAIL" ? " email-value" : ""}`}>{value}</span></span>
-    </button>)}</div><Hints />
+    <section className="contact-dossier" aria-labelledby="contact-title">
+      <div className="contact-dossier-heading">
+        <div><p className="contact-counter">0{active + 1} / 02</p><h2 id="contact-title">{items[active].label}</h2></div>
+        <div className="contact-switch">
+          <button type="button" aria-label={zh ? "上一联系方式" : "Previous contact"} onClick={() => setActive((active + 1) % 2)}>LB</button>
+          <button type="button" aria-label={zh ? "下一联系方式" : "Next contact"} onClick={() => setActive((active + 1) % 2)}>RB</button>
+        </div>
+      </div>
+      <div className="contact-fields" key={active}>{items[active].details.map(([label, value], index) => <button type="button" key={index} className={`contact-field${info === index ? " selected" : ""}`}
+        aria-pressed={info === index} style={{ animationDelay: `${index * 45}ms` }} onMouseEnter={() => setInfo(index)} onFocus={() => { setInfo(index); setRight(true); }} onClick={() => { setInfo(index); setRight(true); }}>
+        <span className="contact-field-index" aria-hidden="true">0{index + 1}</span>
+        <span className="contact-field-body"><span className="contact-field-label">{label}</span><span className="contact-field-value">{value}</span></span>
+        <span className="contact-field-marker" aria-hidden="true">▸</span>
+      </button>)}</div>
+    </section><Hints />
   </>;
 }
 
@@ -303,6 +313,7 @@ function Projects() {
   const [active, setActive] = useState(0);
   const selected = projects[active];
   useKeyboard((event) => {
+    if (["ArrowUp", "ArrowDown"].includes(event.key) && (event.target as HTMLElement).closest(".project-description")) return;
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "Escape", "Backspace", "Enter"].includes(event.key)) event.preventDefault();
     if (event.key === "ArrowUp" || event.key === "ArrowDown") focusItem(".sp-btn-list a", Math.max(0, Math.min(projects.length - 1, active + (event.key === "ArrowUp" ? -1 : 1))));
     if (["ArrowLeft", "Escape", "Backspace"].includes(event.key)) router.push("/");
@@ -310,17 +321,23 @@ function Projects() {
   });
   return <>
     <div className="sp-container mounted">
+      <p className="scene-eyebrow"><span>04</span> / YAO — 001</p>
       <h1 className="sp-title">{zh ? "开源贡献" : "SIDE PROJECTS"}</h1>
       <nav className="sp-btn-list" aria-label={zh ? "开源贡献" : "Open-source contributions"}>{projects.map((project, index) =>
         <PartyRow index={index} key={project.number} label={project.subtitle} role={project.number} href={project.url}
           selectOnTouch active={active === index} onSelect={() => setActive(index)} />)}</nav>
       <a className="project-view-all" href="https://github.com/pulls?q=is%3Apr+author%3AYAO-001" target="_blank" rel="noopener noreferrer">{zh ? "查看全部 →" : "VIEW ALL →"}</a>
     </div>
-    <section className="project-description" key={selected.number} aria-label={selected[language].title} tabIndex={0}>
-      <p className="project-kicker">{selected.discipline}</p><h2>{selected[language].title}</h2><p>{selected[language].description}</p>
-      <div className="project-facts"><span>{text.status[selected.status]}</span><span>{selected[language].stats}</span></div>
-      <a className="project-pr-link" href={selected.url} target="_blank" rel="noopener noreferrer">{text.viewPr}</a>
-      <p className="project-snapshot">{text.workIntro}</p>
+    <section className="project-description" key={selected.number} aria-labelledby="project-detail-title" tabIndex={0}>
+      <div className="project-dossier-heading"><span className="project-file-index" aria-hidden="true">{selected.number}</span>
+        <p className="project-kicker">{selected.subtitle}</p><span className="pr-status" data-status={selected.status}>{text.status[selected.status]}</span>
+      </div>
+      <div className="project-brief"><p className="project-discipline">{selected.discipline}</p><h2 id="project-detail-title">{selected[language].title}</h2><p>{selected[language].description}</p>
+        <p className="project-facts">{selected[language].stats}</p>
+      </div>
+      <div className="project-dossier-footer"><a className="project-pr-link" href={selected.url} target="_blank" rel="noopener noreferrer">{text.viewPr}</a>
+        <p className="project-snapshot">{text.workIntro}</p>
+      </div>
     </section><Hints />
   </>;
 }
@@ -344,13 +361,18 @@ export default function Persona({ initialView }: { initialView: View }) {
   return <div className="persona-app" data-language={language} data-motion={paused ? "paused" : "playing"} data-view={view}>
     <a className="skip-link" href="#content" onClick={(event) => { event.preventDefault(); document.getElementById("content")?.focus(); }}>{copy[language].skip}</a>
     <div className="site-controls" role="group" aria-label={copy[language].languageLabel}>
-      <button type="button" onClick={toggleMotion} aria-pressed={paused} aria-label={zh ? "暂停动画" : "Pause animations"}>{paused ? (zh ? "动态已关" : "Motion off") : (zh ? "动态已开" : "Motion on")}</button>
-      <button type="button" onClick={() => setLanguage("en")} aria-pressed={language === "en"} aria-label={copy[language].chooseEnglish}>EN</button><span>/</span>
-      <button type="button" onClick={() => setLanguage("zh")} aria-pressed={language === "zh"} aria-label={copy[language].chooseChinese}>中文</button>
+      <button type="button" className="motion-control" onClick={toggleMotion} aria-pressed={paused} aria-label={zh ? "暂停动画" : "Pause animations"}>
+        <svg className="motion-symbol" aria-hidden="true" viewBox="0 0 16 16">{paused ? <path d="M5 3L13 8L5 13Z" /> : <><path d="M4 3H7V13H4Z" /><path d="M10 3H13V13H10Z" /></>}</svg>
+        {paused ? (zh ? "动态已关" : "Motion off") : (zh ? "动态已开" : "Motion on")}
+      </button>
+      <div className="language-switch">
+        <button type="button" onClick={() => setLanguage("en")} aria-pressed={language === "en"} aria-label={copy[language].chooseEnglish}>EN</button>
+        <button type="button" onClick={() => setLanguage("zh")} aria-pressed={language === "zh"} aria-label={copy[language].chooseChinese}>中文</button>
+      </div>
     </div>
     <main id="content" tabIndex={-1} className={`scene ${view === "sideproj" ? "projects" : view}-scene`} key={view}>
       <Background scene={view} /><Transition view={view} /><div className="scene-content">{content}</div>
-      {view !== "home" && <Link href="/" className="back-link">{zh ? "← 返回" : "← BACK"}</Link>}
+      {view !== "home" && <Link href="/" className="back-link"><span className="back-arrow" aria-hidden="true">←</span>{zh ? "返回" : "BACK"}</Link>}
     </main>
   </div>;
 }

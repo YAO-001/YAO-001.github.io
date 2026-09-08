@@ -42,26 +42,13 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 1000; padding: 10px 20px; color: #000; background: #8df6ff; transform: translateY(-200%); }
 .skip-link:focus { transform: none; }
 .sc-bar { display: block; }
-.sc-main-top, .resume-card, .resume-badge, .resume-card-inner, .resume-subtitle-bar { display: block; }
+.sc-main-top { display: block; }
 .about-scene .sc-bar-outer, .socials-scene .sc-bar-outer { animation: party-enter .55s cubic-bezier(.22,1,.36,1) both; }
 .about-scene .sc-right-nav, .socials-scene .sc-right-nav { pointer-events: auto; }
 .about-scene .sc-reveal-upper-line { max-width: 70%; }
 .about-scene .sc-reveal-lower-bar { text-transform: none; }
 .about-scene .sc-tab-button { padding: 4px 12px; }
-.resume-scene .resume-card-wrap { width: 100%; animation: menu-enter .4s cubic-bezier(.22,1,.36,1) both; }
-.resume-scene .resume-card { display: block; }
-.resume-scene .resume-title { font-size: 56px; }
-.resume-scene .resume-rank-number { font-size: 70px; }
-.resume-scene .resume-detail-panel { max-height: 81vh; overflow-y: auto; pointer-events: auto; scrollbar-color: #8df6ff #0f1c69; }
-.resume-scene .resume-detail-top { grid-template-columns: 60px 1fr; }
-.resume-scene .resume-detail-top-title { font-size: 42px; font-weight: 400; overflow-wrap: anywhere; }
-.resume-scene .resume-detail-row { grid-template-columns: 32px 1fr auto; gap: 10px; padding: 12px; }
-.resume-scene .resume-detail-row-title { font: 400 28px/1.15 var(--font-anton), "Microsoft YaHei", sans-serif; }
-.resume-scene .resume-detail-status { font-size: 18px; padding: 5px 8px; }
-.resume-scene .resume-detail-bullet { font: 400 21px/1.35 var(--font-anton), "Microsoft YaHei", sans-serif; }
 .resume-scene .sc-footer, .projects-scene .sc-footer { position: absolute; right: 28px; bottom: 20px; z-index: 30; display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
-.recent-merges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; font-size: 16px; color: #8df6ff; }
-.recent-merges p { flex-basis: 100%; }
 .socials-scene .sc-info-bar-text { flex: 0 0 100px; }
 .socials-scene .sc-info-bar-count { flex: 1; min-width: 0; white-space: normal; text-align: right; overflow-wrap: anywhere; margin-right: 20px; font-size: clamp(20px,2.1vw,34px); }
 .socials-scene .sc-main-top { padding-right: 120px; }
@@ -97,20 +84,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 @keyframes transition-about { 0% { transform: translateX(-500px) rotate(-18deg); opacity: 1; } 68% { transform: translateX(20px) rotate(-18deg); opacity: 1; } 100% { transform: translateX(0) rotate(-18deg); opacity: 0; } }
 @keyframes transition-socials { 0% { transform: translateY(-1200px) skewX(-16deg); } 42%,58% { transform: translateY(0) skewX(-16deg); } 100% { transform: translateY(1200px) skewX(-16deg); } }
 [data-language=zh] .p3-label-base { font-family: "Microsoft YaHei", sans-serif; font-weight: 900; letter-spacing: -3px; }
-[data-language=zh] .sc-label, [data-language=zh] .resume-title { font-family: "Microsoft YaHei", sans-serif; font-weight: 800; letter-spacing: 1px; }
+[data-language=zh] .sc-label { font-family: "Microsoft YaHei", sans-serif; font-weight: 800; letter-spacing: 1px; }
 [data-language=zh] .sc-label { font-size: 24px; }
-[data-language=zh] .resume-subtitle { font-size: 20px; }
 [data-language=zh] .project-description h2 { font-size: 28px; line-height: 1.4; }
 
 @media (max-width: 1100px) {
-  .resume-scene .resume-title { font-size: 36px; }
-  .resume-scene .resume-detail-top-title { font-size: 32px; }
-  .resume-scene .resume-rank { gap: 5px; }
-  .resume-scene .resume-rank-label { font-size: 18px; }
-  .resume-scene .resume-rank-number { font-size: 42px; }
-  .resume-scene .resume-card-inner { padding-left: 50px; }
-  .resume-scene .resume-subtitle { font-size: 21px; }
-  .resume-scene .resume-detail-panel { right: 3vw; width: 45vw; padding: 16px; }
   .about-scene .sc-main, .socials-scene .sc-main { padding-left: 50px; }
   .about-scene .sc-role, .socials-scene .sc-role { font-size: 36px; }
   .about-scene .sc-char, .socials-scene .sc-char { left: 70px; max-width: 110px; }
@@ -151,21 +129,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
   .about-scene .sc-dim { position: fixed; }
   .close-reveal { bottom: 28px; right: 18px; }
   .about-scene:has(.sc-reveal-panel) .sc-footer { display: none; }
-  .resume-scene .resume-overlay { position: relative; }
-  .resume-scene .resume-stack { position: relative; left: 5%; top: 0; width: 90%; transform: none; gap: 9px; }
-  .resume-scene .resume-list-tag { font-size: 62px; margin-left: 0; }
-  .resume-scene .resume-card { height: 88px; }
-  .resume-scene .resume-card-wrap.active .resume-card { height: 112px; }
-  .resume-scene .resume-title { font-size: 30px; }
-  .resume-scene .resume-rank-number { font-size: 40px; }
-  .resume-scene .resume-badge { width: 43px; height: 54px; }
-  .resume-scene .resume-subtitle-bar { left: 50px; height: 27px; padding: 0 8px; bottom: 8px; }
-  .resume-scene .resume-subtitle { font-size: 20px; }
-  .resume-scene .resume-detail-panel { position: relative; top: auto; right: auto; width: 90%; margin: 24px auto 0; max-height: none; min-height: 0; overflow: visible; }
-  .resume-scene .resume-detail-top { min-height: 72px; padding: 12px; gap: 4px; }
-  .resume-scene .resume-detail-top-title { font-size: 29px; }
-  .resume-scene .resume-detail-row-title { font-size: 19px; }
-  .resume-scene .resume-detail-bullet { font-size: 18px; }
   .resume-scene .sc-footer, .projects-scene .sc-footer { position: fixed; }
   .socials-scene .sc-root { min-height: 280px; }
   .socials-scene .sc-right-nav { position: relative; top: auto; right: auto; margin: 16px; justify-content: center; }
@@ -187,14 +150,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
   .project-description h2 { font-size: 31px; }
   .project-description p { font-size: 18px; }
   [data-language=zh] .home-scene .p3-menu { transform: scale(.67); }
-  [data-language=zh] .resume-title { font-size: 26px; }
-  [data-language=zh] .resume-subtitle { font-size: 16px; }
 }
 @media (max-width: 380px) { .home-scene .p3-menu { transform: scale(.52); } }
 @media (max-height: 650px) and (min-width: 721px) {
   .home-scene .p3-menu { transform: scale(.8); }
   .home-scene .p3-name-tag { font-size: 82px; }
-  .resume-scene .resume-stack { transform: scale(.72); }
   .projects-scene .sp-title { font-size: 60px; }
 }
 [data-motion=paused] *, [data-motion=paused] *::before, [data-motion=paused] *::after { animation: none !important; transition: none !important; }

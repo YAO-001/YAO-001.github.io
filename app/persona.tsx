@@ -190,43 +190,66 @@ function Resume({ initialTab = 0 }: { initialTab?: number }) {
   const labels = zh ? ["个人档案", "技术栈", "研究方向", "开源贡献"] : ["PROFILE", "SKILLS", "RESEARCH", "CONTRIBUTIONS"];
   const subtitles = zh ? ["中科院自动化所 / 研究实习", "语言与研究工具", "具身智能与世界模型", "公开 Pull Requests"] :
     ["CASIA / Research Intern", "Languages & Research Tools", "Embodied Intelligence / World Models", "Public Pull Requests"];
-  const counts = ["1", "7", "3", "7"];
+  const counts = [1, toolkit.length, researchQuestions.length, projects.length];
   const intro = `${text.introLeadPrefix}${text.institute}${text.introLeadSuffix}`;
-  const rows: { title: string; meta: string; href?: string }[] = active === 0 ? [
+  const rows: { title: string; meta?: string; eyebrow?: string; description?: string; href?: string; status?: string }[] = active === 0 ? [
     { title: "YAO / 001", meta: "CASIA" }, { title: zh ? "具身智能" : "Embodied Intelligence", meta: "AI" },
-    { title: zh ? "世界模型" : "World Models", meta: "RL" }, { title: "GitHub / YAO-001", meta: "↗", href: "https://github.com/YAO-001" },
-  ] : active === 1 ? toolkit.map((title) => ({ title, meta: "" })) : active === 2 ? researchQuestions.map((question) => ({ title: question[language].title, meta: question.index })) :
-    projects.map((project) => ({ title: project.subtitle, meta: text.status[project.status], href: project.url }));
+    { title: zh ? "世界模型" : "World Models", meta: "RL" }, { title: "GitHub / YAO-001", href: "https://github.com/YAO-001" },
+  ] : active === 1 ? toolkit.map((title) => ({ title })) : active === 2 ? researchQuestions.map((question) => ({ title: question[language].title, description: question[language].text })) :
+    projects.map((project) => ({ title: project[language].title, eyebrow: project.subtitle, meta: text.status[project.status], href: project.url, status: project.status }));
   const notes = active === 0 ? [intro, text.introSecondary, text.aboutFirst, text.aboutSecond] : active === 1 ? [text.aboutSecond] :
-    active === 2 ? researchQuestions.map((question) => question[language].text) : [text.workIntro];
+    [];
   useKeyboard((event) => {
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "Escape", "Backspace"].includes(event.key)) event.preventDefault();
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") focusItem(".resume-stack button", Math.max(0, Math.min(3, active + (event.key === "ArrowUp" ? -1 : 1))));
-    if (["ArrowLeft", "Escape", "Backspace"].includes(event.key)) router.push("/");
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      if ((event.target as HTMLElement).closest(".resume-detail-panel")) return;
+      event.preventDefault();
+      focusItem(".resume-stack button", Math.max(0, Math.min(labels.length - 1, active + (event.key === "ArrowUp" ? -1 : 1))));
+    }
+    if (["ArrowLeft", "Escape", "Backspace"].includes(event.key)) { event.preventDefault(); router.push("/"); }
   });
   return <div className="resume-overlay">
     <nav className="resume-stack" aria-label={zh ? "研究档案" : "Resume sections"}>
-      <h1 className="resume-list-tag mounted">{zh ? "档案" : "LIST"}</h1>
-      {labels.map((label, index) => <button type="button" key={label} className={`resume-card-wrap mounted${active === index ? " active" : ""}`}
-        style={{ animationDelay: `${index * 55}ms` }} onClick={() => setActive(index)} onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} aria-pressed={active === index}>
+      <div className="resume-list-heading"><p className="resume-list-eyebrow">YAO / 001</p><h1 className="resume-list-tag">{zh ? "研究档案" : "RESUME"}</h1></div>
+      {labels.map((label, index) => <button type="button" key={index} className={`resume-card-wrap${active === index ? " active" : ""}`}
+        style={{ animationDelay: `${index * 55}ms` }} onClick={() => setActive(index)} onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} aria-pressed={active === index} aria-controls="resume-detail-panel">
         <span className="resume-card"><span className="resume-badge"><span className="resume-badge-text">{["I", "II", "III", "IV"][index]}</span></span>
           <span className="resume-card-inner"><span className="resume-title">{label}</span><span className="resume-rank">
-            <span className="resume-rank-label">{zh ? "条目" : "ITEMS"}</span><span className="resume-rank-number">{counts[index]}</span>
+            <span className="resume-rank-number">{String(counts[index]).padStart(2, "0")}</span><span className="resume-rank-label">{zh ? "条目" : counts[index] === 1 ? "ITEM" : "ITEMS"}</span>
           </span></span><span className="resume-subtitle-bar"><span className="resume-subtitle">{subtitles[index]}</span></span>
         </span>
       </button>)}
     </nav>
-    <section className="resume-detail-panel" tabIndex={0} aria-label={labels[active]}>
-      <div className="resume-detail-top"><span className="resume-detail-top-index">0{active + 1}</span><h2 className="resume-detail-top-title">{labels[active]}</h2></div>
-      <div className="resume-detail-list">{rows.map((row, index) => {
-        const content = <><span className="resume-detail-row-index">{String(index + 1).padStart(2, "0")}</span><span className="resume-detail-row-title">{row.title}</span>
-          {row.meta && <span className="resume-detail-status">{row.meta}</span>}</>;
-        return row.href ? <a className="resume-detail-row" key={row.title} href={row.href} target="_blank" rel="noopener noreferrer">{content}</a> :
-          <div className="resume-detail-row" key={row.title}>{content}</div>;
-      })}</div>
-      <div className="resume-detail-bottom"><h3 className="resume-detail-bottom-title">{zh ? "详细介绍" : "DETAILS"}</h3>
-        <div className="resume-detail-bullets">{notes.map((note) => <p className="resume-detail-bullet" key={note}>{note}</p>)}</div>
-        {active === 0 && <div className="recent-merges"><p>{text.recentLabel}</p>{recentMerges.map((merge) => <a href={merge.url} key={merge.label} target="_blank" rel="noopener noreferrer">{merge.label} ↗</a>)}</div>}
+    <section id="resume-detail-panel" className="resume-detail-panel" aria-labelledby="resume-detail-title">
+      <div className="resume-detail-top">
+        <span className="resume-detail-top-index" aria-hidden="true">0{active + 1}</span>
+        <div className="resume-detail-heading"><p className="resume-detail-caption">{subtitles[active]}</p><h2 id="resume-detail-title" className="resume-detail-top-title">{labels[active]}</h2></div>
+        <span className="resume-detail-top-mark" aria-hidden="true">//</span>
+      </div>
+      <div className="resume-detail-content" key={active} tabIndex={0} aria-label={zh ? `${labels[active]}内容` : `${labels[active]} details`}>
+        {active === 3 && <div className="resume-contribution-key" aria-label={zh ? "所选 PR 状态汇总" : "Selected PR status summary"}>
+          {(["MERGED", "OPEN", "DRAFT"] as const).map((status) => <span className="resume-summary-status" data-status={status} key={status}>
+            <span className="resume-status-dot" aria-hidden="true" />{text.status[status]}<strong>{projects.filter((project) => project.status === status).length}</strong>
+          </span>)}
+        </div>}
+        <div className={`resume-detail-list${active === 3 ? " resume-contribution-list" : ""}`}>{rows.map((row, index) => {
+          const content = <><span className="resume-detail-row-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <span className="resume-detail-row-copy">{row.eyebrow && <span className="resume-detail-row-eyebrow">{row.eyebrow}</span>}
+              <span className="resume-detail-row-title">{row.title}</span>{row.description && <span className="resume-detail-row-description">{row.description}</span>}
+            </span>
+            {(row.meta || row.href) && <span className="resume-detail-row-meta">
+              {row.meta && <span className="resume-detail-status" data-status={row.status}>{row.status && <span className="resume-status-dot" aria-hidden="true" />}{row.meta}</span>}
+              {row.href && <span className="resume-detail-row-arrow" aria-hidden="true">↗</span>}
+            </span>}</>;
+          return row.href ? <a className="resume-detail-row" data-status={row.status} key={row.title} href={row.href} target="_blank" rel="noopener noreferrer">{content}</a> :
+            <div className="resume-detail-row" key={row.title}>{content}</div>;
+        })}</div>
+        {notes.length > 0 && <div className="resume-detail-bottom"><h3 className="resume-detail-bottom-title">{zh ? "详细介绍" : "DETAILS"}</h3>
+          <div className="resume-detail-bullets">{notes.map((note) => <p className="resume-detail-bullet" key={note}>{note}</p>)}</div>
+          {active === 0 && <div className="recent-merges"><p>{text.recentLabel}</p>{recentMerges.map((merge) => <a href={merge.url} key={merge.label} target="_blank" rel="noopener noreferrer">{merge.label} ↗</a>)}</div>}
+        </div>}
+        {active === 3 && <p className="resume-snapshot"><span>{zh ? "状态快照" : "STATUS SNAPSHOT"}<time dateTime="2026-08-30">2026.08.30</time></span>
+          {zh ? "精选自 YAO-001 的公开贡献。点击条目查看原始 PR；以上状态以快照日期为准。" : "Selected public contributions by YAO-001. Open a row for the original PR. Statuses reflect the snapshot date."}
+        </p>}
       </div>
     </section><Hints />
   </div>;

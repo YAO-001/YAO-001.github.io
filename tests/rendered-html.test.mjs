@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
 const output = new URL("../out/", import.meta.url);
@@ -36,9 +36,45 @@ test("retains YAO's research, real contact details, and all seven upstream PR li
   for (const html of [resume, socials, work]) assert.doesNotMatch(html, /MdHu55a1n|Hussain|Indore|SkeletonPreview/);
 });
 
-test("exports local video backgrounds, reduced-motion posters, portraits and font assets", async () => {
-  for (const file of ["Mainn.mp4", "Mainn_1.mp4", "main1.mp4", "main2.mp4", "main3.mp4", "menu-poster.jpg", "about-poster.jpg", "resume-poster.jpg", "socials-poster.jpg", "char1.png", "char2.png", "char3.png", "mainm.jpeg", "mainm2.jpeg", "mainf.jpeg"]) {
-    await access(new URL(`persona/${file}`, output));
+test("exports lightweight media without shipping original videos", async () => {
+  for (const file of ["Mainn.mp4", "Mainn_1.mp4", "main1.mp4", "main2.mp4", "main3.mp4", "menu-poster.webp", "about-poster.webp", "resume-poster.webp", "socials-poster.webp", "char1.webp", "char2.webp", "char3.webp", "mainm.webp", "mainm2.webp", "mainf.webp"]) {
+    await access(new URL(`persona/optimized/${file}`, output));
   }
-  assert.match(await readPage(), /<video[^>]+muted=""[^>]+playsInline=""/);
+  await assert.rejects(access(new URL("persona/Mainn.mp4", output)));
+  await assert.rejects(access(new URL("media-source/", output)));
+});
+
+test("first paint prioritizes the poster and menu font without fetching video", async () => {
+  for (const [route, poster] of [["", "menu"], ["about/", "about"], ["resume/", "resume"], ["socials/", "socials"], ["sideproj/", "menu"]]) {
+    const html = await readPage(route);
+    assert.doesNotMatch(html, /<video\b/);
+    const links = [...html.matchAll(/<link\b[^>]*>/g)].map(([tag]) => tag);
+    assert.ok(links.some((tag) => tag.includes('as="image"') && tag.includes(`${poster}-poster.webp`)));
+    const fonts = links.filter((tag) => tag.includes('as="font"'));
+    assert.equal(fonts.length, 1, "Only the first-screen menu font should be preloaded");
+    assert.ok(fonts[0].includes('.woff2'));
+    assert.ok((await stat(new URL(`persona/optimized/${poster}-poster.webp`, output))).size < 80 * 1024);
+  }
+});
+
+test("backgrounds stay within the transfer budget and support progressive playback", async () => {
+  let total = 0;
+  for (const file of ["Mainn.mp4", "Mainn_1.mp4", "main1.mp4", "main2.mp4", "main3.mp4"]) {
+    const bytes = await readFile(new URL(`persona/optimized/${file}`, output));
+    total += bytes.length;
+    assert.ok(bytes.length < 4 * 1024 * 1024, `${file} exceeds the 4 MiB video budget`);
+    const boxes = [];
+    for (let offset = 0; offset + 8 <= bytes.length;) {
+      let size = bytes.readUInt32BE(offset);
+      const type = bytes.toString("ascii", offset + 4, offset + 8);
+      if (size === 1) size = Number(bytes.readBigUInt64BE(offset + 8));
+      if (size === 0) size = bytes.length - offset;
+      assert.ok(size >= 8 && offset + size <= bytes.length, `${file} contains a broken MP4 box`);
+      boxes.push(type);
+      offset += size;
+    }
+    assert.ok(boxes.includes("moov") && boxes.includes("mdat"));
+    assert.ok(boxes.indexOf("moov") < boxes.indexOf("mdat"), `${file} is missing faststart metadata`);
+  }
+  assert.ok(total < 10 * 1024 * 1024, "Backgrounds exceed the combined 10 MiB transfer budget");
 });

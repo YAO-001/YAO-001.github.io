@@ -3,10 +3,10 @@ import localFont from "next/font/local";
 import { PreferencesProvider } from "./preferences";
 import "./globals.css";
 
-const anton = localFont({ src: "./fonts/anton.ttf", variable: "--font-anton", display: "swap", weight: "400" });
-const bebas = localFont({ src: "./fonts/bebas.ttf", variable: "--font-bebas", display: "swap", weight: "400" });
-const barlow = localFont({ src: [{ path: "./fonts/barlow.ttf", weight: "400" }, { path: "./fonts/barlow-bold.ttf", weight: "700" }], variable: "--font-barlow", display: "swap" });
-const montserrat = localFont({ src: "./fonts/montserrat.ttf", variable: "--font-montserrat", display: "swap", weight: "300" });
+const anton = localFont({ src: "./fonts/anton.woff2", variable: "--font-anton", display: "swap", weight: "400" });
+const bebas = localFont({ src: "./fonts/bebas.woff2", variable: "--font-bebas", display: "swap", weight: "400", preload: false });
+const barlow = localFont({ src: [{ path: "./fonts/barlow.woff2", weight: "400" }, { path: "./fonts/barlow-bold.woff2", weight: "700" }], variable: "--font-barlow", display: "swap", preload: false });
+const montserrat = localFont({ src: "./fonts/montserrat.woff2", variable: "--font-montserrat", display: "swap", weight: "300", preload: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yao-001.github.io"),

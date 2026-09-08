@@ -24,6 +24,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 ::selection { background: #8df6ff; color: #000; }
 .scene { position: relative; width: 100%; height: 100svh; min-height: 540px; overflow: hidden; isolation: isolate; }
 .scene-background { position: absolute; inset: 0; z-index: -1; background: #001b89; }
+.scene-background .scene-poster { object-fit: cover; }
 .scene-background video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .4s ease-in-out; }
 .scene-content { position: absolute; inset: 0; animation: scene-enter .2s .18s both; }
 .home-scene .p3-name-tag { font-weight: 400; }

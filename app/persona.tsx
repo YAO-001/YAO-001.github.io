@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { copy, projects, recentMerges, researchQuestions, toolkit } from "./portfolio-data";
 import { usePreferences } from "./preferences";
+import { Background } from "./scene-background";
 
 export type View = "home" | "about" | "resume" | "socials" | "sideproj";
-const asset = (file: string) => `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/persona/${file}`;
-const portraits = ["mainm.jpeg", "mainm2.jpeg", "mainf.jpeg"];
+const asset = (file: string) => `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/persona/optimized/${file}`;
+const portraits = ["mainm.webp", "mainm2.webp", "mainf.webp"];
 const menuItems = [
   { page: "about", label: "ABOUT ME", zh: "关于我", size: 80, x: 0, y: 0, skew: -6, skewY: 10 },
   { page: "resume", label: "RESUME", zh: "研究档案", size: 66, x: 20, y: 8, skew: -11, skewY: -10 },
@@ -43,31 +44,6 @@ function useKeyboard(onKey: (event: KeyboardEvent) => void) {
 function openExternal(url: string) { window.open(url, "_blank", "noopener,noreferrer"); }
 function focusItem(selector: string, index: number) {
   document.querySelectorAll<HTMLElement>(selector)[index]?.focus();
-}
-
-function Background({ scene }: { scene: View }) {
-  const { paused } = usePreferences();
-  const intro = useRef<HTMLVideoElement>(null);
-  const loop = useRef<HTMLVideoElement>(null);
-  const [loopVisible, setLoopVisible] = useState(false);
-  const isMenu = scene === "home" || scene === "sideproj";
-  const file = scene === "about" ? "main1.mp4" : scene === "resume" ? "main2.mp4" : "main3.mp4";
-  useEffect(() => {
-    for (const video of [intro.current, loop.current]) {
-      if (!video) continue;
-      if (paused) video.pause();
-      else void video.play().catch((error: DOMException) => {
-        if (error.name !== "AbortError" && error.name !== "NotAllowedError") console.error("Background video:", error);
-      });
-    }
-  }, [paused]);
-  return <div className="scene-background" aria-hidden="true">
-    <video ref={intro} src={asset(isMenu ? "Mainn.mp4" : file)} autoPlay={!paused} muted playsInline loop={!isMenu}
-      poster={asset(isMenu ? "menu-poster.jpg" : `${scene}-poster.jpg`)} onEnded={isMenu ? () => setLoopVisible(true) : undefined}
-      style={{ opacity: loopVisible ? 0 : 1, zIndex: 2 }} />
-    {isMenu && <video ref={loop} src={asset("Mainn_1.mp4")} autoPlay={!paused} loop muted playsInline
-      poster={asset("menu-poster.jpg")} style={{ opacity: loopVisible ? 1 : 0, zIndex: 1 }} />}
-  </div>;
 }
 
 function Hints({ reveal = false, home = false }: { reveal?: boolean; home?: boolean }) {
@@ -110,7 +86,7 @@ function MainMenu() {
         return <Link key={item.page} href={item.page === "github" ? "https://github.com/YAO-001" : `/${item.page}/`}
           target={item.page === "github" ? "_blank" : undefined} rel={item.page === "github" ? "noopener noreferrer" : undefined}
           className={`p3-row mounted${selected ? " active" : ""}`} onMouseEnter={() => activate(index)} onFocus={() => activate(index)}
-          style={{ marginRight: item.x, marginTop: item.y, animationDelay: `${1000 + index * 80}ms` }}>
+          style={{ marginRight: item.x, marginTop: item.y, animationDelay: `${index * 55}ms` }}>
           <span className="p3-glow" />
           <span className="p3-skew-wrap" style={{ transform: `skewX(${item.skew}deg) skewY(${item.skewY}deg)` }}>
             <span key={`${selected}-${animation}`} className={`p3-shadow-tri${selected ? " pop" : ""}`} style={{ width, height, clipPath: triangle }} />
@@ -130,7 +106,7 @@ function PartyRow({ index, label, active, onSelect, onOpen, href, role, selectOn
   index: number; label: string; active: boolean; onSelect: () => void; onOpen?: () => void; href?: string; role?: string; selectOnTouch?: boolean;
 }) {
   const content = <>
-    {!role && <Image className="sc-char" src={asset(`char${index + 1}.png`)} alt="" width={[1601, 1760, 1760][index]} height={[685, 676, 675][index]} style={{ width: "auto" }} />}
+    {!role && <Image className="sc-char" src={asset(`char${index + 1}.webp`)} alt="" width={[1601, 1760, 1760][index]} height={[685, 676, 675][index]} style={{ width: "auto" }} />}
     <span className="sc-bar-fill" /><span className="sc-bar-shade" />
     <span className="sc-bar-content"><span className="sc-role">{role || (index === 0 ? "LEADER" : "PARTY")}</span>
       <span className="sc-main"><span className="sc-main-top"><span className="sc-label">{label}</span></span></span>

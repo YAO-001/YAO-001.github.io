@@ -40,4 +40,19 @@ npm run lint
 - Persona 3 角色与游戏画面属于 ATLUS / SEGA；这里保留参考站的展示素材，不表示对这些素材拥有权利或获得官方认可。
 - 字体：Google Fonts 的 Anton、Bebas Neue、Barlow Condensed、Montserrat；字体本地提供，对应许可证保留在 `app/fonts/`。
 
-`public/persona/` 包含约 160 MB 的原始视频和角色图片，保留原文件画质；视频静帧用于加载时及减少动态效果模式。未引入参考作者的个人信息或社交账号。
+原始视频、静帧和角色图片保留在 `media-source/persona/`，不会进入 GitHub Pages 的发布目录。网站使用 `public/persona/optimized/` 中的轻量版本；未引入参考作者的个人信息或社交账号。
+
+## 加载与媒体优化
+
+- 背景视频使用 1280×720、30 fps、H.264 CRF 25，移除音轨并启用 MP4 faststart。五段视频由 158 MB 降至约 7 MB；首页开场与循环视频由 90 MB 降至约 3.5 MB。
+- 页面先显示预加载的 WebP 静帧与菜单，首屏 HTML 不包含视频请求；首轮绘制后空闲时才开始下载开场视频，距离结束约 1.5 秒时再准备循环视频。循环视频只在开场结束后播放。
+- 减少动态效果、手动暂停，以及支持 Network Information API 的节流/2G 网络，首次加载均使用静帧。切到后台时暂停视频，回到前台再继续。
+- 所有角色图与静帧转为 WebP。字体保留字形和许可证，转换为 WOFF2；只有首屏 Anton 预加载，其余按实际文本需要加载。
+- 菜单保留错落入场，但取消固定 1 秒的延迟。视频播放受限或加载失败时，文字、菜单和静帧仍可使用。
+- `npm test` 额外检查静帧优先、延迟视频加载的静态输出、字体预加载数量、MP4 faststart 和媒体体积预算。
+
+视频可由原始文件重新生成，例如：
+
+```sh
+ffmpeg -i media-source/persona/Mainn.mp4 -map 0:v:0 -an -vf "scale=1280:-2:flags=lanczos,fps=30" -c:v libx264 -preset slow -crf 25 -pix_fmt yuv420p -movflags +faststart public/persona/optimized/Mainn.mp4
+```

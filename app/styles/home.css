@@ -86,7 +86,7 @@
           position: absolute;
           top: 50%;
           transform-origin: left center;
-          background: #ffffff;
+          background: rgba(255,255,255,.92);
           z-index: 2;
           transition: transform 0.22s cubic-bezier(0.22,1,0.36,1);
           pointer-events: none;

@@ -17,7 +17,7 @@
           position: absolute;
           inset: 0;
           z-index: 12;
-          background: rgba(40, 45, 54, 0.68);
+          background: rgba(40, 45, 54, 0.38);
           pointer-events: none;
           animation: about-sc-dim-in 0.32s ease-out;
         }
@@ -133,7 +133,7 @@
           left: 0%;
           width: 100%;
           height: 40%;
-          background: rgba(0, 0, 0, 0.92);
+          background: rgba(0, 0, 0, 0.42);
           clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
           box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
           display: flex;
@@ -203,7 +203,7 @@
           flex-wrap: wrap;
           padding-right: 28px;
           height: 20%;
-          background: rgba(0, 0, 0, 0.92);
+          background: rgba(0, 0, 0, 0.42);
           clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%);
           box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
           display: flex;
@@ -282,7 +282,7 @@
           width: 45vw;
           height: 64px;
           transition: height 0.3s cubic-bezier(0.22,1,0.36,1);
-          background: #111;
+          background: var(--p3-bg-bar);
           cursor: pointer;
           pointer-events: all;
           clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
@@ -319,7 +319,7 @@
           position: absolute;
           inset: 0;
           width: 100%;
-          background: #ffffff;
+          background: rgba(255,255,255,.9);
           clip-path: polygon(100% 0, 100% 0, calc(100% - 32px) 100%, calc(100% - 32px) 100%);
           transition: clip-path 0.35s cubic-bezier(0.22, 1, 0.36, 1);
           z-index: 0;

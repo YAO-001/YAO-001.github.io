@@ -53,7 +53,7 @@
           width: 45vw;
           height: 64px;
           transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, background 0.35s ease;
-          background: #111;
+          background: var(--p3-bg-bar);
           cursor: pointer;
           pointer-events: all;
           clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
@@ -92,7 +92,7 @@
           position: absolute;
           inset: 0;
           width: 100%;
-          background: var(--p3-blue-light);
+          background: var(--p3-bg-highlight);
           clip-path: polygon(100% 0, 100% 0, calc(100% - 32px) 100%, calc(100% - 32px) 100%);
           transition: clip-path 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           z-index: 0;
@@ -185,7 +185,7 @@
           cursor: default;
         }
         .projects-scene .sc-info-bar-wrap.selected {
-          background: #111;
+          background: rgba(17,17,17,.25);
           padding: 1.5px;
           border-radius: 8px;
           transform: translateX(-4px);
@@ -201,7 +201,7 @@
           transition: background 0.2s ease, border-radius 0.2s ease;
         }
         .projects-scene .sc-info-bar-wrap.selected .sc-info-bar {
-          background: var(--p3-blue-light);
+          background: var(--p3-bg-highlight);
           border-radius: 7px;
         }
         .projects-scene .sc-info-bar-wrap.selected .sc-info-bar::before {

@@ -57,7 +57,7 @@
   min-height: 108px;
   padding-bottom: 2.1rem;
   color: var(--p3-blue-light);
-  background: linear-gradient(110deg, #091443, #0b2064);
+  background: linear-gradient(110deg, rgba(9,20,67,.78), rgba(11,32,100,.82));
   clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 16px 100%);
   border-top: 1px solid #8df6ff4d;
   transition: color .18s ease, background .18s ease;
@@ -97,7 +97,7 @@
   display: block;
   padding: .4rem .8rem .45rem;
   border-top: 1px solid #8df6ff38;
-  background: #020c3080;
+  background: #020c3040;
 }
 .resume-scene .resume-subtitle { display: block; font-size: .9375rem; line-height: 1.2; letter-spacing: .015em; }
 .resume-scene .resume-card-wrap.active .resume-subtitle-bar { color: var(--p3-blue-lighter); background: #07143d; }
@@ -111,7 +111,7 @@
   max-height: calc(100svh - max(4.5rem, 8svh) - 5.5rem);
   padding: .65rem;
   pointer-events: auto;
-  background: linear-gradient(145deg, #132768f7, #051035fa 60%);
+  background: linear-gradient(145deg, rgba(19,39,104,.78), rgba(5,16,53,.84) 60%);
   border: 1px solid #8df6ff4a;
   border-top: 3px solid var(--p3-blue-light);
   box-shadow: 12px 12px 0 #020a2f85;
@@ -136,7 +136,7 @@
   min-width: 0;
   padding: 1.25rem 1.3rem 1.4rem;
   color: #061238;
-  background: var(--p3-blue-light);
+  background: var(--p3-bg-highlight);
   clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
 }
 .resume-scene .resume-detail-top-index {
@@ -174,13 +174,13 @@
   gap: .8rem;
   min-width: 0;
   padding: .9rem .8rem;
-  background: #0c205d99;
+  background: #0c205d3d;
   border: 1px solid #8df6ff1c;
   border-left: 2px solid #8df6ff55;
   transition: background .16s ease, border-color .16s ease, transform .16s ease;
 }
 .resume-scene a.resume-detail-row:hover,
-.resume-scene a.resume-detail-row:focus-visible { background: #18387e; border-color: #8df6ffb3; transform: translateX(3px); }
+.resume-scene a.resume-detail-row:focus-visible { background: #18387eb3; border-color: #8df6ffb3; transform: translateX(3px); }
 .resume-scene a.resume-detail-row:focus-visible { outline-offset: -3px; }
 .resume-scene .resume-detail-row-index { padding-top: .15rem; color: #8df6ff9c; font: 400 1.25rem/1.1 var(--font-bebas), sans-serif; }
 .resume-scene .resume-detail-row-copy { display: flex; flex-direction: column; gap: .4rem; min-width: 0; }

@@ -5,7 +5,9 @@
 @import "./styles/projects.css";
 
 :root {
-  --p3-bg-panel: linear-gradient(180deg, rgba(15,28,105,.96), rgba(8,16,68,.97));
+  --p3-bg-panel: linear-gradient(180deg, rgba(15,28,105,.78), rgba(8,16,68,.84));
+  --p3-bg-bar: rgba(17,17,17,.76);
+  --p3-bg-highlight: rgba(141,246,255,.9);
   --p3-bg-dark: #000;
   --p3-blue-primary: #0f1c69;
   --p3-blue-light: #8df6ff;
@@ -29,7 +31,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 .scene-content { position: absolute; inset: 0; animation: scene-enter .2s .18s both; }
 .home-scene .p3-name-tag { font-weight: 400; }
 .home-scene .p3-row { animation: menu-enter .38s cubic-bezier(.22,1,.36,1) both; }
-.site-controls { position: fixed; right: 25px; top: 16px; z-index: 80; display: flex; align-items: center; gap: 7px; padding: 5px 8px; background: #00184cb3; }
+.site-controls { position: fixed; right: 25px; top: 16px; z-index: 80; display: flex; align-items: center; gap: 7px; padding: 5px 8px; background: #00184c80; }
 .site-controls button, .site-controls span { font: 14px var(--font-barlow), "Microsoft YaHei", sans-serif; color: #8df6ff; padding: 3px 5px; }
 .site-controls button[aria-pressed=true] { color: #fff; }
 .site-controls button:hover { color: #fff; background: #ffffff20; }
